@@ -8,9 +8,6 @@ var url = require('url');
 */
 
 http.createServer(function (req,res){
-    //发送http头部
-    //http状态值：200 OK
-    //十日至http头部，状态码是200，文件类型是html，字符集是utf-8
 
     res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
 
