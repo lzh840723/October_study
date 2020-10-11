@@ -1,0 +1,102 @@
+// 创建shop 数据库(此时数据库并未创建，需要插入数据)
+use shop
+
+// 插入数据，建立完成
+db.product.insert({"title":"1111"})
+
+//
+use shop
+
+//
+show collections
+
+db.user.insert({"name":"zhangsan"})
+
+show collections
+
+// 删除user表
+db.user.drop()
+
+// 删除数据库shop
+> use shop
+switched to db shop
+> db.dropDatabase()
+{ "dropped" : "shop", "ok" : 1 }
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+>
+
+// 创建itying数据库和表user,并插入数据
+> use itying
+switched to db itying
+> db.user.insert({"name":"111","age":"23"})
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({"name":"222","age":"24"})
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({"name":"33","age":"25"})
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({"name":"33","age":"35"})
+WriteResult({ "nInserted" : 1 })
+> db.user.insert({"name":"334","age":"35"})
+WriteResult({ "nInserted" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "111", "age" : "23" }
+{ "_id" : ObjectId("5f82b4cb015272c9732f4e0d"), "name" : "222", "age" : "24" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+>
+
+// update   name:111 -> name:asdf
+> db.user.update({"name":"111"},{$set:{"name":"asdf"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4cb015272c9732f4e0d"), "name" : "222", "age" : "24" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+>          
+
+// 不写set的区别
+> db.user.update({"name":"222"},{"name":"333"}) ))
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4cb015272c9732f4e0d"), "name" : "333" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+>             
+
+// 删除name：333
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4cb015272c9732f4e0d"), "name" : "333" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+> db.user.remove({"name":"333"})
+WriteResult({ "nRemoved" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+>           
+
+// 只删除一条name=33的数据
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4d4015272c9732f4e0e"), "name" : "33", "age" : "25" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+> db.user.remove({"name":"33"},{justOne:true})
+WriteResult({ "nRemoved" : 1 })
+> db.user.find()
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+{ "_id" : ObjectId("5f82b4d8015272c9732f4e0f"), "name" : "33", "age" : "35" }
+{ "_id" : ObjectId("5f82b4df015272c9732f4e10"), "name" : "334", "age" : "35" }
+>             

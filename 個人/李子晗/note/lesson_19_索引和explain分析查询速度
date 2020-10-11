@@ -1,0 +1,282 @@
+// count
+>  db.user.count()
+3
+
+// 查看数据结构
+> db.user.find().limit(1)
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+>  
+
+// 获得索引
+> db.user.getIndexes()
+[ { "v" : 2, "key" : { "_id" : 1 }, "name" : "_id_" } ]
+>
+
+// 往数据库里插入六百万条数据 (要等30分钟左右，少点的好)
+> for(var i=0; i< 6000000; i++){
+... db.user.insert({"name":"name"+i,"age":i})
+... }
+WriteResult({ "nInserted" : 1 })
+> db.user.find().count()
+6000003
+>        
+
+// 查看查询时间 无索引
+> db.user.find({"name":"name34"}).explain("executionStats")
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "itying.user",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+                        "name" : {
+                                "$eq" : "name34"
+                        }
+                },
+                "winningPlan" : {
+                        "stage" : "COLLSCAN",
+                        "filter" : {
+                                "name" : {
+                                        "$eq" : "name34"
+                                }
+                        },
+                        "direction" : "forward"
+                },
+                "rejectedPlans" : [ ]
+        },
+        "executionStats" : {
+                "executionSuccess" : true,
+                "nReturned" : 1,
+                "executionTimeMillis" : 1716,  <== 时间在这里
+                "totalKeysExamined" : 0,
+                "totalDocsExamined" : 3407239,
+                "executionStages" : {
+                        "stage" : "COLLSCAN",
+                        "filter" : {
+                                "name" : {
+                                        "$eq" : "name34"
+                                }
+                        },
+                        "nReturned" : 1,
+                        "executionTimeMillisEstimate" : 1265,
+                        "works" : 3407241,
+                        "advanced" : 1,
+                        "needTime" : 3407239,
+                        "needYield" : 0,
+                        "saveState" : 3407,
+                        "restoreState" : 3407,
+                        "isEOF" : 1,
+                        "direction" : "forward",
+                        "docsExamined" : 3407239
+                }
+        },
+        "serverInfo" : {
+                "host" : "DESKTOP-K8PPGFO",
+                "port" : 27017,
+                "version" : "4.4.1",
+                "gitVersion" : "ad91a93a5a31e175f5cbf8c69561e788bbc55ce1"
+        },
+        "ok" : 1
+}
+>
+
+// 创建索引
+> db.user.ensureIndex({"name":1})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+>     
+
+// 查看索引
+> db.user.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_"
+        },
+        {
+                "v" : 2,
+                "key" : {
+                        "name" : 1
+                },
+                "name" : "name_1"
+        }
+]
+>
+
+// 有索引
+> db.user.find({"name":"name34"}).explain("executionStats")
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "itying.user",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+                        "name" : {
+                                "$eq" : "name34"
+                        }
+                },
+                "winningPlan" : {
+                        "stage" : "FETCH",
+                        "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "keyPattern" : {
+                                        "name" : 1
+                                },
+                                "indexName" : "name_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "name" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "name" : [
+                                                "[\"name34\", \"name34\"]"
+                                        ]
+                                }
+                        }
+                },
+                "rejectedPlans" : [ ]
+        },
+        "executionStats" : {
+                "executionSuccess" : true,
+                "nReturned" : 1,
+                "executionTimeMillis" : 7,  <== 时间
+                "totalKeysExamined" : 1,
+                "totalDocsExamined" : 1,
+                "executionStages" : {
+                        "stage" : "FETCH",
+                        "nReturned" : 1,
+                        "executionTimeMillisEstimate" : 0,
+                        "works" : 2,
+                        "advanced" : 1,
+                        "needTime" : 0,
+                        "needYield" : 0,
+                        "saveState" : 0,
+                        "restoreState" : 0,
+                        "isEOF" : 1,
+                        "docsExamined" : 1,
+                        "alreadyHasObj" : 0,
+                        "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "nReturned" : 1,
+                                "executionTimeMillisEstimate" : 0,
+                                "works" : 2,
+                                "advanced" : 1,
+                                "needTime" : 0,
+                                "needYield" : 0,
+                                "saveState" : 0,
+                                "restoreState" : 0,
+                                "isEOF" : 1,
+                                "keyPattern" : {
+                                        "name" : 1
+                                },
+                                "indexName" : "name_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "name" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "name" : [
+                                                "[\"name34\", \"name34\"]"
+                                        ]
+                                },
+                                "keysExamined" : 1,
+                                "seeks" : 1,
+                                "dupsTested" : 0,
+                                "dupsDropped" : 0
+                        }
+                }
+        },
+        "serverInfo" : {
+                "host" : "DESKTOP-K8PPGFO",
+                "port" : 27017,
+                "version" : "4.4.1",
+                "gitVersion" : "ad91a93a5a31e175f5cbf8c69561e788bbc55ce1"
+        },
+        "ok" : 1
+}
+>
+
+// 删除索引name
+> db.user.dropIndex({"name":1})
+{ "nIndexesWas" : 2, "ok" : 1 }
+>
+
+// 创建联合索引
+> db.user.ensureIndex({"name":1,"age":-1})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+>
+
+// 删除联合索引
+> db.user.dropIndex({"name":1,"age":-1})
+{ "nIndexesWas" : 2, "ok" : 1 }
+>
+
+// 唯一索引 (主键)
+> db.user.ensureIndex({"name":1},{"unique":true});
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+> db.user.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "name" : 1
+                },
+                "name" : "name_1"
+        }
+]
+> db.user.find().limit(1)
+{ "_id" : ObjectId("5f82b4c4015272c9732f4e0c"), "name" : "asdf", "age" : "23" }
+> db.user.insert({"name" : "asdf", "age" : "23"})   // 重复插入报错
+WriteResult({
+        "nInserted" : 0,
+        "writeError" : {
+                "code" : 11000,
+                "errmsg" : "E11000 duplicate key error collection: itying.user index: name_1 dup key: { name: \"asdf\" }"
+        }
+})
+>  
+
+// 后台运行
+> db.user.ensureIndex({"age":1},{"background":true});
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 2,
+        "numIndexesAfter" : 3,
+        "ok" : 1
+}
+> 

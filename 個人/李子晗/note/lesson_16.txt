@@ -1,0 +1,5 @@
+// 启动服务
+mongod --dbpath C:\mongodb
+
+// 另启一个cmd，启动客户端
+mongo
