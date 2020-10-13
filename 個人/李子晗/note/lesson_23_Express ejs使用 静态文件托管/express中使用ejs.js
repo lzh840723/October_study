@@ -21,7 +21,6 @@ app.get('/', function(req, res) {
 app.get('/news', function(req, res) {
     var arr = ['111', '222', '333'];
     res.render('news', { list: arr });
-    // res.render('news');
 })
 
 app.listen(8001, '127.0.0.1');
