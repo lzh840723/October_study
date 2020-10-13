@@ -40,16 +40,9 @@ app.post('/doLogin', function(req, res) {
         //     "username": req.body.username,
         //     "pwd": req.body.password
         // };
-        dbo.collection("userinfo").find({}).toArray(function(error, result) {
+        dbo.collection("userinfo").find(req.body).toArray(function(error, result) {
             if (error) throw error;
             console.log(result);
-            // console.log(loginInfo['username']);
-            // console.log(loginInfo['pwd']);
-
-            // ejs.renderFile('views/findall.ejs', { msg: result }, function(err1, data) {
-            //     if (err1) throw err1;
-            //     res.send(data);
-            // })
             db.close();
         });
     });
