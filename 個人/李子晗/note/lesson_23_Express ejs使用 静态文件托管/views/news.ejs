@@ -7,14 +7,15 @@
 
 <body>
     <h2>ejs news</h2>
-    <img src='images/48053793_p0_master1200.jpg' alt="百度" />
-    <ul>
-        <% for(var i=0; i<list.length; i++){%>
-            <li>
-                <%=list[i]%>
-            </li>
-            <%}%>
-    </ul>
+    <%- include("public/header.ejs") -%>
+        <img src='images/48053793_p0_master1200.jpg' alt="百度" />
+        <ul>
+            <% for(var i=0; i<list.length; i++){%>
+                <li>
+                    <%=list[i]%>
+                </li>
+                <%}%>
+        </ul>
 </body>
 
 </html>
