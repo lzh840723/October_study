@@ -41,7 +41,7 @@ app.post('/dologin', function(req, res) {
         var logInfo = date + " : " + clientId + "|" + req.body.username + "|" + req.body.pwd;
         dbo.collection("userinfo").find(req.body).toArray(function(error, result) {
             if (error) throw error;
-            if (result.length > 0) {
+            if (result.length == 1) {
                 fs.appendFile(loginLogPath, logInfo + ' 登録成功しました。\n', function(err) {
                     if (err) throw err;
                 });
@@ -66,7 +66,7 @@ app.post('/dologin', function(req, res) {
 app.get('/login.log',function (req,res) {
     fs.readFile('./login.log',function (err,data) {
         if(err) throw err;
-        res.send(data.toString());
+        res.send('<textarea rows="50" cols="120">'+data.toString()+'</textarea>');
     })
 });
 
