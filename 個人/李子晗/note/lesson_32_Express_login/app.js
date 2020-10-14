@@ -1,6 +1,8 @@
 const express = require('express');
+const fs = require('fs');
 // 引入mongodb
 const { MongoClient } = require('mongodb');
+const ejs = require('ejs');
 var bodyParser = require('body-parser');
 var app = express();
 // parse application/x-www-form-urlencoded
@@ -20,33 +22,50 @@ app.get('/', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-    res.render('login');
+    // res.render('login');
+
+    ejs.renderFile('views/login.ejs', { msg: '' }, function(err1, data) {
+        if (err1) throw err1;
+        res.send(data);
+    });
 });
 
 // 数据库的数据查询
-app.post('/doLogin', function(req, res) {
-    // console.log(req.body);
+app.post('/dologin', function(req, res) {
     MongoClient.connect(DbUrl, function(err, db) { // client to db
         if (err) throw err;
         var dbo = db.db('login');
-        // var result = dbo.collection("userinfo").find({ "username": req.body.username, "pwd": req.body.password });
-        // , function(error, result) {
-        //     if (error) throw error;
-        //     console.log(result);
-        //     res.send("Data was finded");
-        //     db.close();
-        // });
-        // var loginInfo = {
-        //     "username": req.body.username,
-        //     "pwd": req.body.password
-        // };
+        var loginLogPath = "login.log";
+        var date = new Date();
+        var clientId = date.getTime() + req.body.username;
+        var logInfo = date + " : " + clientId + "|" + req.body.username + "|" + req.body.pwd;
         dbo.collection("userinfo").find(req.body).toArray(function(error, result) {
             if (error) throw error;
-            console.log(result);
+            if (result.length > 0) {
+                fs.appendFile(loginLogPath, logInfo + ' OK\n', function(err) {
+                    if (err) throw err;
+                });
+                // res.send(JSON.parse('{"flag":"1"}'));
+                ejs.renderFile('views/login.ejs', { msg: '登録成功' }, function(err1, data) {
+                    if (err1) throw err1;
+                    res.send(data);
+                });
+                // res.render('login');
+            } else {
+                fs.appendFile(loginLogPath, logInfo + ' NG\n', function(err) {
+                    if (err) throw err;
+                });
+                // res.send(JSON.parse('{"flag":"0"}'));
+                // res.render('login');
+                ejs.renderFile('views/login.ejs', { msg: '登録失败' }, function(err1, data) {
+                    if (err1) throw err1;
+                    // console.log(data);
+                    res.send(data);
+                });
+            }
             db.close();
         });
     });
-
 })
 
 app.listen(8001, '127.0.0.1');
