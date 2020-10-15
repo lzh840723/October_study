@@ -1,0 +1,13 @@
+1.引入
+脚手架工具  create-react-app
+
+1.1官网地址
+https://reactjs.org/docs/create-a-new-react-app.html
+
+1.2安装命令
+npx create-react-app my-app
+
+1.3新建项目myapp
+create-react-app myapp
+cd myapp
+npm start

@@ -1,0 +1,21 @@
+1.学习内容
+create-react-app
+组件思维
+JSX
+开发调试工具
+虚拟DOM
+生命周期
+react-transition-group
+Redux
+Antd
+UI,容器组件
+无状态组件
+redux-thunk
+redux-saga
+styled-components
+immutable.js
+redux-immutable
+axios
+
+2.学习前提
+.js ES6 webpack npm
