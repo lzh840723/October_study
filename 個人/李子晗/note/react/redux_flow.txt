@@ -1,0 +1,12 @@
+                            Redux Flow
+
+
+            dispatch(action)          (previousState,action)
+Action     ----------------→   Store 　---------------------- Reducers
+Greators                         |     ←--------------------- 
+      |                          |            new state
+      |                          |
+      |                  (state) |
+      |                          ↓
+      ----------------------  Reacat
+                            Components

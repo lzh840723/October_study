@@ -1,0 +1,9 @@
+reducer可以接受state， 但是不能修改state
+返回的必须是纯函数,纯函数是指給固定的输入，就一定会有固定的输出，且不会有副作用
+store必须是唯一的
+只有store可以改变自己
+API:
+createStore
+store.getState
+store.dispatch
+store.subscribe

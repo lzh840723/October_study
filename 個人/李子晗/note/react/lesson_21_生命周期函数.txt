@@ -1,0 +1,13 @@
+        init                            Mounting                                     Updation                                         Unmounting
+          ↓                                 ↓                                            |                                                 ↓
+setup props and state               componentWillMount                          props-------states                                componentWillUnmount
+                                            ↓                                     ↓           ↓
+                                          render                    componentWillReceive    shouldComponentUpdate
+                                            ↓                                     ↓           ↓(true)     ×(false)
+                                    componentDidMount               shouldComponentUpdate   componentWillUpdate
+                                                                       ×(false)   ↓(true)     ↓
+                                                                    componentWillUpdate     render
+                                                                                  ↓           ↓
+                                                                                render      componentDidUpdate
+                                                                                  ↓             
+                                                                    componentDidUpdate
