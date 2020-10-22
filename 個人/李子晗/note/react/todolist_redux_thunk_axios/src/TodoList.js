@@ -1,7 +1,13 @@
 import React,{Component} from 'react';
-import {getInputChangeAction, getAddItemAction, getInputDeleteAction} from './store/actionCreators.js'
+import {
+    getInputChangeAction, 
+    getAddItemAction, 
+    getInputDeleteAction,
+    initListAction
+} from './store/actionCreators.js'
 import store from './store';
 import TodoListUI from './store/TodoListUI.js'
+import Axios from 'axios';
 
 class TodoList extends Component {
     constructor(props) {
@@ -40,6 +46,16 @@ class TodoList extends Component {
         store.dispatch(action);
     }
     componentDidMount() {
+        Axios.get('https://api.zipaddress.net/?zipcode=191-0042').then((res) => {
+            const data = res.data;
+            this.handleMsg(data);
+            // const action = initListAction(data);
+            // store.dispatch(action);
+        })
+    }
+    handleMsg(msg) {
+        const jsonData= JSON.parse(msg);
+        console.log(jsonData.data.address);
     }
 }
 
