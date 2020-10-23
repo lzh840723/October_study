@@ -15,25 +15,6 @@ class Todolist extends Component {
         this.handleItemDelete = this.handleItemDelete.bind(this);
     }
 
-    // ajax
-    componentDidMount() {
-        // axios.get('/api/todolist')
-        //     .then((res) => {
-        //         this.setState(() => ({
-        //             list: [...res.data]
-        //         }));
-        //     })
-        //     .catch(() => {alert('err')})
-    }
-
-    // componentWillMount() {   
-    //     console.log('UNSAFE_componentWillMount');
-    // }
-    // shouldComponentUpdate() {
-    //     console.log('shouldComponentUpdate');
-    //     return false;
-    // }
-
     render() {
         return (
             <Fragment>
@@ -53,7 +34,7 @@ class Todolist extends Component {
                         onChange={this.handleInputChange}
                         // ref={(input) => { this.input = input }}  // 直接domを修正するってお勧めではない
                     />
-                    <button onClick={this.handleBtnClick}>出す</button>
+                    <button onClick={this.handleBtnClick}>提交</button>
                 </div>
                 <ul>
                     {this.getToItem()}
@@ -77,8 +58,6 @@ class Todolist extends Component {
     // handleInputChange() {
         // 非同期
         const value = e.target.value;
-        // const value = this.input.value;
-        
         this.setState(()=>({
             inputValue: value
         }))
@@ -96,25 +75,14 @@ class Todolist extends Component {
                     inputValue : ''
                 }));
             }
-            if (code === 404) {
+            if (code === 404 || code ===400) {
                 const info = (this.state.list.length) + ':' + value +':' + code + ':' + res.data.message;
                 this.setState(() => ({
                     list: [...this.state.list, info],
                     inputValue : ''
                 }));
             }
-            if (code === 400) {
-                const info = (this.state.list.length) +':' + code + ':' + res.data.message;
-                this.setState(() => ({
-                    list: [...this.state.list, info],
-                    inputValue : ''
-                }));
-            }
         })
-        // this.setState(()=>({
-        //     list:[...this.state.list, this.state.inputValue],
-        //     inputValue : ''
-        // }))
     }
     handleItemDelete(i) {
         // immutale:
