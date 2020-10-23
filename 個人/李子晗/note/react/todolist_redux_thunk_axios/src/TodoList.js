@@ -7,7 +7,6 @@ import {
 } from './store/actionCreators.js'
 import store from './store';
 import TodoListUI from './store/TodoListUI.js'
-import Axios from 'axios';
 
 class TodoList extends Component {
     constructor(props) {
@@ -38,6 +37,14 @@ class TodoList extends Component {
         this.setState(store.getState());
     }
     handleBtnClik() {
+        // Axios.get('https://api.zipaddress.net/?zipcode=191-0042').then((res) => {
+        //     const address = res.data.fullAddress;
+        //     const code = res.data.code;
+        //     if (code == 200) {
+        //         const action = initListAction(address);
+        //         store.dispatch(action);
+        //     }
+        // })
         const action = getAddItemAction();
         store.dispatch(action);
     }
@@ -46,16 +53,6 @@ class TodoList extends Component {
         store.dispatch(action);
     }
     componentDidMount() {
-        Axios.get('https://api.zipaddress.net/?zipcode=191-0042').then((res) => {
-            const data = res.data;
-            this.handleMsg(data);
-            // const action = initListAction(data);
-            // store.dispatch(action);
-        })
-    }
-    handleMsg(msg) {
-        const jsonData= JSON.parse(msg);
-        console.log(jsonData.data.address);
     }
 }
 

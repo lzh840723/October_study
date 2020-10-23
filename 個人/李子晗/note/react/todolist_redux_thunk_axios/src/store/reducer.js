@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 import {
     CHANGE_INPUT_VALUE,
     DELETE_INPUT_ITEM,
@@ -34,9 +36,20 @@ export default (state = defaultState, action) => {
 
     if (action.type === ADD_INPUT_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
-        newState.list.push(newState.inputValue);
-        newState.inputValue = '';
-        return newState;
+        const value = newState.inputValue;
+        const zipcode = value.substring(0,3) + '-' + value.substring(3);
+        Axios.get('https://api.zipaddress.net/?zipcode='+zipcode).then((res) => {
+            const address = res.data.data.fullAddress;
+            const code = res.data.code;
+            if (code == 200) {
+                newState.list.push(address);
+                newState.inputValue = '';
+                console.log(newState);
+                return newState;
+            }
+        })
+        // newState.list.push(newState.inputValue);
+        // newState.inputValue = '';
     }
 
     if (action.type === DELETE_INPUT_ITEM) {

@@ -13,7 +13,7 @@ class TodoItem extends Component {
             <div 
                 onClick={this.handleClick}
             >
-                {test}-{content}
+                {test}{content}
             </div>
         )
     }
@@ -38,7 +38,7 @@ TodoItem.propTypes = {
 
 // default設定
 TodoItem.defaultProps = {
-    test: 'hello'
+    test: ''
 }
 
 export default TodoItem;
