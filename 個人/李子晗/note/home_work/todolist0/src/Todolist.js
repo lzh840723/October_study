@@ -75,7 +75,7 @@ class Todolist extends Component {
                     inputValue : ''
                 }));
             }
-            if (code === 404 || code ===400) {
+            if (code === 404 || code === 400) {
                 const info = (this.state.list.length) + ':' + value +':' + code + ':' + res.data.message;
                 this.setState(() => ({
                     list: [...this.state.list, info],
