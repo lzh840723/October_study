@@ -1,0 +1,23 @@
+.header {
+    margin-top: 10px;
+    margin-left: 0.7%;
+    width: 98.5%;
+    height: 125px;
+    line-height: 30px;
+    border: 1px black solid;
+    text-align:center;
+}
+
+.footer {
+    margin-top: 10px;
+    margin-left: 0.7%;
+    width: 98.5%;
+    height: 25px;
+    border: 1px black solid;
+    text-align: right;
+    padding-top: 100px;
+}
+
+#title {
+    font-size: 50px;
+}
