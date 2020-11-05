@@ -1,17 +1,15 @@
 .header {
-    margin-top: 10px;
-    margin-left: 0.7%;
-    width: 98.5%;
-    height: 125px;
-    line-height: 30px;
+    margin-left: 10%;
+    width: 80%;
+    height: 90px;
+    padding-top: 20px;
     border: 1px black solid;
     text-align:center;
 }
 
 .footer {
-    margin-top: 10px;
-    margin-left: 0.7%;
-    width: 98.5%;
+    margin-left: 10%;
+    width: 80%;
     height: 25px;
     border: 1px black solid;
     text-align: right;
@@ -20,4 +18,73 @@
 
 #title {
     font-size: 50px;
+}
+
+.bodyDiv {
+    margin-left: 10%;
+    width: 80%;
+    height: 1000px;
+    border: 1px black solid;
+}
+
+div {
+    width: 100%;
+    border: 1px black solid;
+    height: auto;
+}
+
+.part1 {
+    height: 100px;
+}
+
+.part2 {
+    height: 100px;
+}
+
+button {
+    width: 120px;
+    height: 40px;
+    float: right;
+    margin-right: 30px;
+    margin-top: 28px;
+    font-size: 20px;
+}
+
+.loginBtn button {
+}
+
+.logoutBtn button {
+}
+
+.newStaffBtn {
+    margin-right: 235px;
+}
+
+.staffId {
+    font-size: 28px;
+    float: left;
+    margin-left: 200px;
+    margin-top: 30px;
+}
+
+.searchInput {
+    float: left;
+    width: 500px;
+    height: 34px;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding-left: 20px;
+    font-size: 25px;
+}
+
+.searchBtn {
+    float: left;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.tabLabel {
+    font-size: 28px;
+    float: left;
+    margin-left: 43%;
 }

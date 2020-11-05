@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import {
-    getInputChangeAction, 
-    getAddItemAction, 
-    getInputDeleteAction//,
-    // initListAction
-} from './store/actionCreators.js'
+// import {
+//     getInputChangeAction, 
+//     getAddItemAction, 
+//     getInputDeleteAction//,
+//     // initListAction
+// } from './store/actionCreators.js'
 import store from './store';
 import Header from './UI/Header'
 import Footer from './UI/Footer.js';

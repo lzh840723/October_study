@@ -6,7 +6,7 @@ class Header extends Component {
     render () {
         return (
             <div className='header'>
-                <p id='title'>羽石社員管理システム</p>
+                <label id='title'>羽石社員管理システム</label>
             </div>
         )
     }
