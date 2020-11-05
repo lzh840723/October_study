@@ -8,6 +8,7 @@ import BtnNewStaff from './button/BtnNewStaff';
 import InputSearch from './input/InputSearch';
 import BtnSearch from './button/BtnSearch';
 import TabLabel from './label/TabLabel';
+import StaffInfoTab from './table/StaffInfoTab';
 
 class Body extends Component {
     render () {
@@ -25,6 +26,7 @@ class Body extends Component {
                 </div>
                 <div>
                     <TabLabel/>
+                    <StaffInfoTab/>
                 </div>
             </div>
         )
