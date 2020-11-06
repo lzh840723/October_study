@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import '../style.css'
 import StaffId from './label/StaffId';
@@ -26,6 +25,7 @@ class Body extends Component {
                 </div>
                 <div>
                     <TabLabel/>
+                    <br style={{clear:"both"}}/>
                     <StaffInfoTab/>
                 </div>
             </div>
